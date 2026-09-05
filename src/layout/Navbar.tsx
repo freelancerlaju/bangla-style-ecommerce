@@ -460,8 +460,12 @@ export default function Navbar() {
         </div>
 
         {/* Mobile Navigation Drawer Menu */}
-        {isMobileMenuOpen && (
-          <nav className="flex flex-col gap-1 border-t border-gray-100 px-4 py-3 bg-white lg:hidden">
+        <nav
+          className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+            isMobileMenuOpen ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0'
+          }`}
+        >
+          <div className="flex flex-col gap-1 border-t border-gray-100 px-4 py-3 bg-white">
             {NAV_LINKS.map((link) => {
               const isActive =
                 link.href === '/'
@@ -488,8 +492,8 @@ export default function Navbar() {
                 </Link>
               );
             })}
-          </nav>
-        )}
+          </div>
+        </nav>
       </header>
     </>
   );

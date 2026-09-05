@@ -26,7 +26,6 @@ interface FeaturedProductProps {
 }
 
 function pickFeatured(pool: Product[]): Product[] {
-  // Prefer items with discounts, otherwise just take the first ones
   const discounted = pool.filter(
     (p) => p.originalPrice && p.originalPrice > p.price,
   );
@@ -35,7 +34,6 @@ function pickFeatured(pool: Product[]): Product[] {
 }
 
 function ratingFor(id: string): number {
-  // Deterministic pseudo-rating between 4.4 and 4.9
   let hash = 0;
   for (let i = 0; i < id.length; i++) hash = (hash * 31 + id.charCodeAt(i)) | 0;
   const norm = Math.abs(hash % 50) / 100;
@@ -90,7 +88,7 @@ export default function FeaturedProducts({
     setActiveIndex((i) => (i - 1 + featured.length) % featured.length);
 
   return (
-    <section className="bg-[#f4f5f8] font-[montserrat] antialiased text-gray-900 my-4 md:my-6 lg:my-8">
+    <section className="bg-[#f2f4f8] font-[montserrat] antialiased text-gray-900 my-4 md:my-6 lg:my-8">
       <div className="px-4 sm:px-6 lg:px-8 max-w-7xl w-full mx-auto">
         {/* Section Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-5 sm:mb-6">
@@ -109,7 +107,7 @@ export default function FeaturedProducts({
           <div className="flex items-center gap-2">
             <Link
               to="/shop"
-              className="rounded-lg bg-white border border-gray-200 hover:border-[#FFD700] hover:bg-[#FFD700] hover:text-gray-900 text-gray-800 px-4 py-2 text-xs sm:text-sm font-semibold transition-all duration-300 font-[montserrat] flex items-center gap-1.5"
+              className="rounded-lg bg-white border border-gray-200 hover:border-[#FED90B] hover:bg-[#FED90B] hover:text-gray-900 text-gray-800 px-4 py-2 text-xs sm:text-sm font-semibold transition-all duration-300 font-[montserrat] flex items-center gap-1.5"
             >
               View All <ArrowRight size={13} />
             </Link>
@@ -117,28 +115,23 @@ export default function FeaturedProducts({
         </div>
 
         {/* Main Layout: Hero + Side Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
           {/* Hero Feature Card */}
           {hero && (
-            <div className="lg:col-span-2 relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white shadow-lg group">
-              {/* Background pattern */}
-              <div
-                className="absolute inset-0 opacity-[0.07] pointer-events-none"
-                style={{
-                  backgroundImage:
-                    'radial-gradient(circle at 20% 20%, #FFD700 0%, transparent 40%), radial-gradient(circle at 80% 80%, #FFD700 0%, transparent 40%)',
-                }}
-              />
+            <div className="md:col-span-2 relative overflow-hidden rounded-2xl bg-white border border-gray-200 shadow-sm">
+              {/* Decorative accent blobs */}
+              <div className="pointer-events-none absolute -top-16 -right-16 h-48 w-48 rounded-full bg-amber-400/10 blur-3xl" />
+              <div className="pointer-events-none absolute -bottom-16 -left-16 h-48 w-48 rounded-full bg-amber-500/10 blur-3xl" />
 
-              <div className="relative grid grid-cols-1 md:grid-cols-2 gap-4 p-5 sm:p-7">
+              <div className="relative grid grid-cols-1 md:grid-cols-2 gap-4 p-4 sm:p-5 md:p-6">
                 {/* Image side */}
                 <div className="relative order-1 md:order-1">
                   <div className="absolute top-3 left-3 z-10 flex flex-col gap-1.5">
-                    <span className="inline-flex items-center gap-1 bg-[#FFD700] text-black text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md shadow">
+                    <span className="inline-flex items-center gap-1 bg-[#FED90B] text-black text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md shadow-sm">
                       <Crown size={10} fill="currentColor" /> Featured
                     </span>
                     {heroDiscount > 0 && (
-                      <span className="inline-flex items-center gap-1 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded-md shadow">
+                      <span className="inline-flex items-center gap-1 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded-md shadow-sm">
                         <Zap size={10} fill="currentColor" /> -{heroDiscount}%
                       </span>
                     )}
@@ -146,7 +139,7 @@ export default function FeaturedProducts({
 
                   <Link
                     to={`/product/${hero.id}`}
-                    className="block aspect-[4/5] sm:aspect-[4/5] rounded-xl overflow-hidden bg-white/5 border border-white/10"
+                    className="block aspect-[4/5] sm:aspect-[4/5] rounded-xl overflow-hidden bg-gray-50 border border-gray-100"
                   >
                     <img
                       src={hero.imageUrl}
@@ -164,8 +157,8 @@ export default function FeaturedProducts({
                         onClick={() => setActiveIndex(idx)}
                         className={`h-1.5 rounded-full transition-all ${
                           idx === activeIndex
-                            ? 'w-6 bg-[#FFD700]'
-                            : 'w-1.5 bg-white/30 hover:bg-white/50'
+                            ? 'w-6 bg-[#FED90B]'
+                            : 'w-1.5 bg-gray-300 hover:bg-gray-400'
                         }`}
                       />
                     ))}
@@ -176,12 +169,12 @@ export default function FeaturedProducts({
                 <div className="flex flex-col justify-between order-2 md:order-2">
                   <div>
                     {hero.category && (
-                      <span className="inline-block text-[10px] font-bold uppercase tracking-widest text-[#FFD700] mb-2">
+                      <span className="inline-block text-[10px] font-bold uppercase tracking-widest text-amber-700 mb-2">
                         {hero.category}
                       </span>
                     )}
                     <Link to={`/product/${hero.id}`}>
-                      <h3 className="text-lg sm:text-xl font-bold font-[montserrat] leading-snug hover:text-[#FFD700] transition-colors">
+                      <h3 className="text-lg sm:text-xl font-bold font-[montserrat] leading-snug hover:text-amber-700 transition-colors">
                         {hero.name}
                       </h3>
                     </Link>
@@ -195,33 +188,33 @@ export default function FeaturedProducts({
                             size={12}
                             className={
                               i < Math.round(heroRating)
-                                ? 'text-[#FFD700] fill-[#FFD700]'
-                                : 'text-white/20'
+                                ? 'text-[#FED90B] fill-[#FED90B]'
+                                : 'text-gray-300'
                             }
                           />
                         ))}
                       </div>
-                      <span className="text-[11px] text-white/70 font-medium">
+                      <span className="text-[11px] text-gray-600 font-medium">
                         {heroRating} · {heroReviews} reviews
                       </span>
                     </div>
 
-                    <p className="text-xs text-white/70 mt-3 line-clamp-3 leading-relaxed">
+                    <p className="text-xs text-gray-600 mt-3 line-clamp-3 leading-relaxed">
                       {hero.description ||
                         'A signature piece from our editor-selected collection.'}
                     </p>
 
                     {/* Price */}
                     <div className="flex items-baseline gap-2.5 mt-4 font-[montserrat] flex-wrap">
-                      <span className="text-xl sm:text-2xl font-bold text-white">
+                      <span className="text-xl sm:text-2xl font-bold text-gray-900">
                         {hero.price.toLocaleString()}৳
                       </span>
                       {hero.originalPrice && (
                         <>
-                          <span className="text-sm text-white/40 line-through">
+                          <span className="text-sm text-gray-400 line-through">
                             {hero.originalPrice.toLocaleString()}৳
                           </span>
-                          <span className="text-[10px] font-bold bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded">
+                          <span className="text-[10px] font-bold bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded">
                             Save {hero.originalPrice - hero.price}৳
                           </span>
                         </>
@@ -243,7 +236,7 @@ export default function FeaturedProducts({
                   </div>
 
                   {/* CTA row */}
-                  <div className="flex items-center gap-2 mt-5">
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 mt-5">
                     <button
                       onClick={handleAddToCart}
                       disabled={adding}
@@ -252,7 +245,7 @@ export default function FeaturedProducts({
                           ? 'bg-amber-400/80 text-black cursor-wait'
                           : added
                             ? 'bg-emerald-500 text-white'
-                            : 'bg-[#FFD700] text-black hover:bg-amber-400'
+                            : 'bg-[#FED90B] text-black hover:bg-amber-400'
                       }`}
                     >
                       {adding ? (
@@ -272,20 +265,22 @@ export default function FeaturedProducts({
                         </>
                       )}
                     </button>
-                    <button
-                      onClick={prev}
-                      aria-label="Previous featured product"
-                      className="w-10 h-10 shrink-0 rounded-xl bg-white/10 hover:bg-white/20 text-white flex items-center justify-center cursor-pointer transition-colors"
-                    >
-                      <ChevronLeft size={16} />
-                    </button>
-                    <button
-                      onClick={next}
-                      aria-label="Next featured product"
-                      className="w-10 h-10 shrink-0 rounded-xl bg-white/10 hover:bg-white/20 text-white flex items-center justify-center cursor-pointer transition-colors"
-                    >
-                      <ChevronRight size={16} />
-                    </button>
+                    <div className="flex items-center gap-2 sm:justify-end">
+                      <button
+                        onClick={prev}
+                        aria-label="Previous featured product"
+                        className="w-10 h-10 shrink-0 rounded-xl bg-gray-50 hover:bg-gray-100 text-gray-700 border border-gray-200 flex items-center justify-center cursor-pointer transition-colors"
+                      >
+                        <ChevronLeft size={16} />
+                      </button>
+                      <button
+                        onClick={next}
+                        aria-label="Next featured product"
+                        className="w-10 h-10 shrink-0 rounded-xl bg-gray-50 hover:bg-gray-100 text-gray-700 border border-gray-200 flex items-center justify-center cursor-pointer transition-colors"
+                      >
+                        <ChevronRight size={16} />
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -293,7 +288,7 @@ export default function FeaturedProducts({
           )}
 
           {/* Side Stack */}
-          <div className="grid grid-cols-2 lg:grid-cols-1 gap-3 sm:gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-3 sm:gap-4">
             {featured.slice(0, 4).map((p, idx) => (
               <FeaturedSideCard
                 key={p.id}
@@ -312,7 +307,7 @@ export default function FeaturedProducts({
 
 function Badge({ icon, label }: { icon: React.ReactNode; label: string }) {
   return (
-    <div className="flex items-center gap-1 bg-white/5 border border-white/10 rounded-md px-1.5 py-1 text-[10px] font-semibold text-white/80">
+    <div className="flex items-center gap-1 bg-gray-50 border border-gray-200 rounded-md px-1.5 py-1 text-[10px] font-semibold text-gray-700">
       {icon}
       {label}
     </div>
@@ -339,11 +334,11 @@ function FeaturedSideCard({
       onMouseEnter={onSelect}
       className={`group flex bg-white rounded-xl border overflow-hidden shadow-xs hover:shadow-md transition-all duration-300 ${
         isActive
-          ? 'border-[#FFD700] ring-2 ring-[#FFD700]/30'
+          ? 'border-[#FED90B] ring-2 ring-[#FED90B]/30'
           : 'border-gray-100'
       }`}
     >
-      <div className="relative w-24 sm:w-28 shrink-0 bg-gray-50">
+      <div className="relative w-20 sm:w-24 md:w-28 shrink-0 bg-gray-50">
         <img
           src={product.imageUrl}
           alt={product.name}
@@ -355,10 +350,10 @@ function FeaturedSideCard({
           </span>
         )}
       </div>
-      <div className="flex-1 min-w-0 p-2.5 flex flex-col justify-between">
+      <div className="flex-1 min-w-0 p-2 sm:p-2.5 md:p-3 flex flex-col justify-between">
         <div>
           {product.category && (
-            <span className="text-[9px] font-bold uppercase tracking-wider text-amber-600">
+            <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-amber-700">
               {product.category}
             </span>
           )}
@@ -369,7 +364,7 @@ function FeaturedSideCard({
             {product.name}
           </p>
           <div className="flex items-center gap-1 mt-1">
-            <Star size={10} className="text-[#FFD700] fill-[#FFD700]" />
+            <Star size={10} className="text-[#FED90B] fill-[#FED90B]" />
             <span className="text-[10px] font-semibold text-gray-700">
               {rating}
             </span>

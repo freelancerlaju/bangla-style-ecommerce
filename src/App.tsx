@@ -4,6 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { HeroCarousel } from './components/HeroCarousel';
 import Navbar from './layout/Navbar';
 import Footer from './layout/Footer';
+import NewsletterSection from './components/NewsletterSection';
 import NavbarOffer from './UI/NavbarOffer';
 import Category from './components/CategorySection';
 import KameezSection from './components/BestKameez';
@@ -56,6 +57,7 @@ function HomePage() {
                 <Route path="/account" element={<AccountPage />} />
               </Routes>
             </main>
+            <NewsletterSection />
             <CartDrawer />
             <Footer />
             <ToastContainer

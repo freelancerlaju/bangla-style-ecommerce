@@ -98,7 +98,7 @@ export default function CartDrawer() {
       {/* Slide-out drawer with smooth slide in/out */}
       <div className="fixed inset-y-0 right-0 max-w-full flex pl-10 pointer-events-none">
         <div
-          className={`w-screen max-w-md bg-white shadow-2xl flex flex-col pointer-events-auto transform transition-transform duration-350 ease-in-out ${
+          className={`w-full max-w-md bg-white shadow-2xl flex flex-col pointer-events-auto transform transition-transform duration-350 ease-in-out ${
             animateOpen ? 'translate-x-0' : 'translate-x-full'
           }`}
         >
